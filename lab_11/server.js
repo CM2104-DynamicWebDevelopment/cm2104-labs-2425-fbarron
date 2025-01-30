@@ -1,6 +1,9 @@
 var express = require('express');
 
 const knockKnockJokes = require('knock-knock-jokes');
+
+app.use(express.static('public'));
+
 var knockJokes = knockKnockJokes();
 
 var app = express();
