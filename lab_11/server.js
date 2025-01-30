@@ -54,10 +54,16 @@ app.get('/calc', function (req, res) {
         res.send("Hi "+name+" I am sure you will "+quest) ;
         });
 
-        app.post('/postform', function(req, res){
-            var name = req.body.name;
-            var quest = req.body.quest;
-            res.send("Hi "+name+" I am sure you will "+quest) ;
-            });
+    app.post('/postform', function(req, res){
+        var name = req.body.name;
+        var quest = req.body.quest;
+        res.send("Hi "+name+" I am sure you will "+quest) ;
+        });
+
+    app.get('/user/:userID/books/:bookid', function(req, res){
+        var userID = req.params.userID;
+        var bookID = req.params.bookID;
+        res.send("User ID is: "+userID+" and Book ID is: "+bookID);
+        });
 
 app.listen(8080);
