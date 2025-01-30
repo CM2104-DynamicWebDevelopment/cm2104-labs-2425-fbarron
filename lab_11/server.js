@@ -66,4 +66,8 @@ app.get('/calc', function (req, res) {
         res.send("User ID is: "+userID+" and Book ID is: "+bookID);
         });
 
+    app.use(function ( req, res, next) {
+        res.send('This page does not exist!')
+        })
+
 app.listen(8080);
