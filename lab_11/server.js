@@ -2,11 +2,12 @@ var express = require('express');
 
 const knockKnockJokes = require('knock-knock-jokes');
 
-app.use(express.static('public'));
 
 var knockJokes = knockKnockJokes();
 
 var app = express();
+
+app.use(express.static('public'));
 
 app.get('/', function (req, res) {
   res.send('Hello World! By Express');
