@@ -41,6 +41,12 @@ app.get("/search", function (req, res) {
   getTracks(searchterm, res);
 });
 
+// route for artists top tracks
+app.get("/topTracks/:artistID", function (req, res) {
+  var artistID = req.params.artistID;
+  getTopTracks(artist, res);
+});
+
 async function getTracks(searchterm, res) {
   spotifyApi.searchTracks(searchterm).then(
     function (data) {
