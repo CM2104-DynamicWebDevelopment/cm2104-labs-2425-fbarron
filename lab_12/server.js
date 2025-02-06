@@ -120,10 +120,13 @@ async function getTopTracks(artistID, res) {
 }
 
 async function getRelated(artistID, res) {
+    console.log("Fetching related artists for artistID:", artistID); // Debug log
+  
     spotifyApi.getArtistRelatedArtists(artistID).then(
       function (data) {
+        console.log("API Response:", JSON.stringify(data.body, null, 2)); // Log full API response
+  
         var artists = data.body.artists;
-        
         if (!artists || artists.length === 0) {
           res.send("<h1>No related artists found</h1>");
           return;
@@ -146,18 +149,21 @@ async function getRelated(artistID, res) {
         res.send(HTMLResponse);
       },
       function (err) {
-        console.log("Something went wrong!", err);
+        console.log("Error retrieving related artists:", err); // Log error
         res.status(500).send("Error retrieving related artists");
       }
     );
   }
   
+  
 
 // route for artists related artists
 app.get("/relatedArtists/:artistID", function (req, res) {
     var artistID = req.params.artistID;
+    console.log("Received artistID:", artistID); // Debug log
     getRelated(artistID, res);
   });
+  
   
 
 app.listen(8080);
