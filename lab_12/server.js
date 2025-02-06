@@ -48,41 +48,36 @@ app.get("/topTracks/:artistID", function (req, res) {
 });
 
 async function getTracks(searchterm, res) {
-  spotifyApi.searchTracks(searchterm).then(
-    function (data) {
-      var tracks = data.body.tracks.items;
-      var HTMLResponse = "";
-      for (var i = 0; i < tracks.length; i++) {
-        var track = tracks[i];
-        console.log(track.name);
-        HTMLResponse =
-          HTMLResponse +
-          "<div>" +
-          "<h2>" +
-          track.name +
-          "</h2>" +
-          "<h4>" +
-          track.artists[0].name +
-          "</h4>" +
-          "Artist ID: " +
-          track.artists[0].id +
-          "<br>" +
-          "<img src='" +
-          track.album.images[0].url +
-          "'>" +
-          "<a href='" +
-          track.external_urls.spotify +
-          "'> Track Details </a>" +
-          "</div>";
-        console.log(HTMLResponse);
+    spotifyApi.searchTracks(searchterm).then(
+      function (data) {
+        var tracks = data.body.tracks.items;
+        var HTMLResponse = "<h1>Search Results</h1>";
+  
+        for (var i = 0; i < tracks.length; i++) {
+          var track = tracks[i];
+          var artistID = track.artists[0].id;
+  
+          HTMLResponse +=
+            "<div>" +
+            "<h2>" + track.name + "</h2>" +
+            "<h4>" + track.artists[0].name + "</h4>" +
+            "Artist ID: " + artistID + "<br>" +
+            "<img src='" + track.album.images[0].url + "'>" +
+            "<a href='" + track.external_urls.spotify + "'> Track Details </a><br>" +
+            `<a href='/topTracks/${artistID}'> View Top Tracks </a><br>` + // Link to top tracks
+            `<a href='/relatedArtists/${artistID}'> View Related Artists </a>` + // New link
+            "</div>";
+        }
+  
+        res.send("You searched for " + searchterm + "<br>" + HTMLResponse);
+      },
+      function (err) {
+        console.error(err);
       }
-      res.send("You searched for " + searchterm + "<br>" + HTMLResponse);
-    },
-    function (err) {
-      console.error(err);
-    }
-  );
-}
+    );
+  }
+  
+  
 
 async function getTopTracks(artistID, res) {
   spotifyApi.getArtistTopTracks(artistID, "GB").then(
