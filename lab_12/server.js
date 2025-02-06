@@ -41,8 +41,8 @@ app.get("/search", function (req, res) {
     getTracks(searchterm, res);
   });
 
-async function getTracks(searchterm, res) {
-  spotifyApi.searchTracks(searchterm).then(
+async function getTracks(searchterm, artist, res) {
+  spotifyApi.searchTracks(searchterm, artist).then(
     function (data) {
         var tracks = data.body.tracks.items
         var HTMLResponse = "";
@@ -58,7 +58,7 @@ async function getTracks(searchterm, res) {
         "</div>";
         console.log(HTMLResponse);
         }
-        res.send("You searched for " + searchterm + "<br>" + HTMLResponse);
+        res.send("You searched for " + searchterm + "by " + artist +  "<br>" + HTMLResponse);
     },
     function (err) {
       console.error(err);
