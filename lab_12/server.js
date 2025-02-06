@@ -58,6 +58,7 @@ async function getTracks(searchterm, res) {
           "<h4>" +
           track.artists[0].name +
           "</h4>" +
+          "Artist ID: " +
           track.artists[0].id +
             "<br>" +
           "<img src='" +
