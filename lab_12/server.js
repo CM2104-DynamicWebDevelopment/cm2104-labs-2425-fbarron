@@ -124,5 +124,41 @@ async function getTopTracks(artistID, res) {
     );
   }
   
+  async function getRelated(artistID, res) {
+    spotifyApi.getArtistRelatedArtists(artistID)
+    .then(function (data) {
+    console.log(data.body);
+    var artists = data.body.artists;
+    var HTMLResponse = "";
+    for (var i = 0; i < artists.length; i++) {
+    var artist = artists[i];
+    console.log(artist.name);
+    HTMLResponse +=
+    "<div>" +
+    "<h2>" +
+    artist.name +
+    "</h2>" +
+    "<img src='" +
+    artist.images[0].url +
+    "'>" +
+    "<a href='" +
+    artist.external_urls.spotify +
+    "'> Artist Details </a>" +
+    "</div>";
+    }
+    // Send the response to the client
+    res.send("Related Artists:<br>" + HTMLResponse);
+    }, 
+    function (err) {
+    console.log('Something went wrong!', err);
+    });
+    }
+
+    // route for artists related artists
+app.get("/relatedArtists/:artistID", function (req, res) {
+    var artistID = req.params.artistID;
+    getRelated(artistID, res);
+    }
+    );
 
 app.listen(8080);
