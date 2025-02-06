@@ -38,33 +38,32 @@ app.get("/searchLove", function (req, res) {
 // route for searching in tracks, artists and albums
 app.get("/search", function (req, res) {
     var searchterm = req.query.searchterm;
-    var artist = req.query.artist;
-    getTracks(searchterm, artist, res);
+    getTracks(searchterm, res);
   });
 
-  async function getTracks(searchterm, artist, res) {
-    spotifyApi.searchTracks(`track:${searchterm} artist:${artist}`).then(
-      function (data) {
-          var tracks = data.body.tracks.items;
-          var HTMLResponse = "";
-          for(var i=0; i<tracks.length; i++){
-              var track = tracks[i];
-              console.log(track.name);
-              HTMLResponse = HTMLResponse +
-              "<div>" +
-              "<h2>"+track.name+"</h2>"+
-              "<h4>"+track.artists[0].name+"</h4>"+
-              "<img src='"+track.album.images[0].url +"'>"+
-              "<a href='"+track.external_urls.spotify+"'> Track Details </a>"+
-              "</div>";
-              console.log(HTMLResponse);
-          }
-          res.send("You searched for " + searchterm + " by " + artist +  "<br>" + HTMLResponse);
-      },
-      function (err) {
-        console.error(err);
-      }
-    );
-  }
+async function getTracks(searchterm, res) {
+  spotifyApi.searchTracks(searchterm).then(
+    function (data) {
+        var tracks = data.body.tracks.items
+        var HTMLResponse = "";
+        for(var i=0; i<tracks.length;i++){
+        var track = tracks[i];
+        console.log(track.name);
+        HTMLResponse = HTMLResponse +
+        "<div>" +
+        "<h2>"+track.name+"</h2>"+
+        "<h4>"+track.artists[0].name+"</h4>"+
+        "<img src='"+track.album.images[0].url +"'>"+
+        "<a href='"+track.external_urls.spotify+"'> Track Details </a>"+
+        "</div>";
+        console.log(HTMLResponse);
+        }
+        res.send("You searched for " + searchterm + "<br>" + HTMLResponse);
+    },
+    function (err) {
+      console.error(err);
+    }
+  );
+}
 
 app.listen(8080);
