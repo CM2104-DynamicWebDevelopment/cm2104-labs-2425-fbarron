@@ -44,7 +44,7 @@ app.get("/search", function (req, res) {
 // route for artists top tracks
 app.get("/topTracks/:artistID", function (req, res) {
   var artistID = req.params.artistID;
-  getTopTracks(artist, res);
+  getTopTracks(artistID, res);
 });
 
 async function getTracks(searchterm, res) {
@@ -84,7 +84,7 @@ async function getTracks(searchterm, res) {
   );
 }
 
-async function getTopTracks(artist, res) {
+async function getTopTracks(artistID, res) {
   spotifyApi.getArtistTopTracks(artist, "GB").then(
     function (data) {
       console.log(data.body);
