@@ -70,6 +70,7 @@ app.get("/searchLove", function (req, res) {
 app.get("/search", function (req, res) {
     var searchterm = req.query.searchterm;
     getTracks(searchterm, res);
+    res.send("You searched for " + searchterm);
   });
 
 app.listen(8080);
