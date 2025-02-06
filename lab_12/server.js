@@ -32,36 +32,58 @@ app.get("/", function (req, res) {
 
 // route for love in tracks, artists and albums
 app.get("/searchLove", function (req, res) {
-    getTracks("love", res);
-  });
+  getTracks("love", res);
+});
 
 // route for searching in tracks, artists and albums
 app.get("/search", function (req, res) {
-    var searchterm = req.query.searchterm;
-    getTracks(searchterm, res);
-  });
+  var searchterm = req.query.searchterm;
+  getTracks(searchterm, res);
+  var artistID = req.query.artistID; // Define artistID appropriately
+  getTopTracks(artistID);
+});
 
 async function getTracks(searchterm, res) {
   spotifyApi.searchTracks(searchterm).then(
     function (data) {
-        var tracks = data.body.tracks.items
-        var HTMLResponse = "";
-        for(var i=0; i<tracks.length;i++){
+      var tracks = data.body.tracks.items;
+      var HTMLResponse = "";
+      for (var i = 0; i < tracks.length; i++) {
         var track = tracks[i];
         console.log(track.name);
-        HTMLResponse = HTMLResponse +
-        "<div>" +
-        "<h2>"+track.name+"</h2>"+
-        "<h4>"+track.artists[0].name+"</h4>"+
-        "<img src='"+track.album.images[0].url +"'>"+
-        "<a href='"+track.external_urls.spotify+"'> Track Details </a>"+
-        "</div>";
+        HTMLResponse =
+          HTMLResponse +
+          "<div>" +
+          "<h2>" +
+          track.name +
+          "</h2>" +
+          "<h4>" +
+          track.artists[0].name +
+          "</h4>" +
+          "<img src='" +
+          track.album.images[0].url +
+          "'>" +
+          "<a href='" +
+          track.external_urls.spotify +
+          "'> Track Details </a>" +
+          "</div>";
         console.log(HTMLResponse);
-        }
-        res.send("You searched for " + searchterm + "<br>" + HTMLResponse);
+      }
+      res.send("You searched for " + searchterm + "<br>" + HTMLResponse);
     },
     function (err) {
       console.error(err);
+    }
+  );
+}
+
+async function getTopTracks(artist, res) {
+  spotifyApi.getArtistTopTracks(artist, "GB").then(
+    function (data) {
+      console.log(data.body);
+    },
+    function (err) {
+      console.log("Something went wrong!", err);
     }
   );
 }
