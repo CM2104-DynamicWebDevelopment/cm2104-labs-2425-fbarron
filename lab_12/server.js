@@ -66,7 +66,7 @@ async function getTracks(searchterm, res) {
           "</h4>" +
           "Artist ID: " +
           track.artists[0].id +
-            "<br>" +
+          "<br>" +
           "<img src='" +
           track.album.images[0].url +
           "'>" +
@@ -85,80 +85,80 @@ async function getTracks(searchterm, res) {
 }
 
 async function getTopTracks(artistID, res) {
-    spotifyApi.getArtistTopTracks(artistID, "GB").then(
-      function (data) {
-        console.log(data.body);
-        var tracks = data.body.tracks;
-        var HTMLResponse = "";
-  
-        for (var i = 0; i < tracks.length; i++) {
-          var track = tracks[i];
-          console.log(track.name);
-          HTMLResponse +=
-            "<div>" +
-            "<h2>" +
-            track.name +
-            "</h2>" +
-            "<h4>" +
-            track.artists[0].name +
-            "</h4>" +
-            "Artist ID: " +
-            track.artists[0].id +
-            "<br>" +
-            "<img src='" +
-            track.album.images[0].url +
-            "'>" +
-            "<a href='" +
-            track.external_urls.spotify +
-            "'> Track Details </a>" +
-            "</div>";
-        }
-  
-        // Send the response to the client
-        res.send("Top Tracks:<br>" + HTMLResponse);
-      },
-      function (err) {
-        console.log("Something went wrong!", err);
-        res.status(500).send("Error retrieving top tracks");
-      }
-    );
-  }
-  
-  async function getRelated(artistID, res) {
-    spotifyApi.getArtistRelatedArtists(artistID)
-    .then(function (data) {
-    console.log(data.body);
-    var artists = data.body.artists;
-    var HTMLResponse = "";
-    for (var i = 0; i < artists.length; i++) {
-    var artist = artists[i];
-    console.log(artist.name);
-    HTMLResponse +=
-    "<div>" +
-    "<h2>" +
-    artist.name +
-    "</h2>" +
-    "<img src='" +
-    artist.images[0].url +
-    "'>" +
-    "<a href='" +
-    artist.external_urls.spotify +
-    "'> Artist Details </a>" +
-    "</div>";
-    }
-    // Send the response to the client
-    res.send("Related Artists:<br>" + HTMLResponse);
-    }, 
-    function (err) {
-    console.log('Something went wrong!', err);
-    });
-    }
+  spotifyApi.getArtistTopTracks(artistID, "GB").then(
+    function (data) {
+      console.log(data.body);
+      var tracks = data.body.tracks;
+      var HTMLResponse = "";
 
-    // route for artists related artists
-app.get("/relatedArtists/:artistID", function (req, res) {
-    var artistID = req.params.artistID;
-    getRelated(artistID, res);
+      for (var i = 0; i < tracks.length; i++) {
+        var track = tracks[i];
+        console.log(track.name);
+        HTMLResponse +=
+          "<div>" +
+          "<h2>" +
+          track.name +
+          "</h2>" +
+          "<h4>" +
+          track.artists[0].name +
+          "</h4>" +
+          "Artist ID: " +
+          track.artists[0].id +
+          "<br>" +
+          "<img src='" +
+          track.album.images[0].url +
+          "'>" +
+          "<a href='" +
+          track.external_urls.spotify +
+          "'> Track Details </a>" +
+          "</div>";
+      }
+
+      // Send the response to the client
+      res.send("Top Tracks:<br>" + HTMLResponse);
+    },
+    function (err) {
+      console.log("Something went wrong!", err);
+      res.status(500).send("Error retrieving top tracks");
     }
-    );
+  );
+}
+
+async function getRelated(artistID, res) {
+  spotifyApi.getArtistRelatedArtists(artistID).then(
+    function (data) {
+      console.log(data.body);
+      var artists = data.body.artists;
+      var HTMLResponse = "";
+      for (var i = 0; i < artists.length; i++) {
+        var artist = artists[i];
+        console.log(artist.name);
+        HTMLResponse +=
+          "<div>" +
+          "<h2>" +
+          artist.name +
+          "</h2>" +
+          "<img src='" +
+          artist.images[0].url +
+          "'>" +
+          "<a href='" +
+          artist.external_urls.spotify +
+          "'> Artist Details </a>" +
+          "</div>";
+      }
+      // Send the response to the client
+      res.send("Related Artists:<br>" + HTMLResponse);
+    },
+    function (err) {
+      console.log("Something went wrong!", err);
+    }
+  );
+}
+
+// route for artists related artists
+app.get("/relatedArtists/:artistID", function (req, res) {
+  var artistID = req.params.artistID;
+  getRelated(artistID, res);
+});
 
 app.listen(8080);
