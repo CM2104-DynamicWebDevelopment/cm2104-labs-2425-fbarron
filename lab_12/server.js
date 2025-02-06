@@ -42,7 +42,7 @@ app.get("/search", function (req, res) {
 });
 
 // route for artists top tracks
-app.get("/topTracks/:artistID", function (req, res) {
+app.get("/search/:artistID", function (req, res) {
   var artistID = req.params.artistID;
   getTopTracks(artistID, res);
 });
