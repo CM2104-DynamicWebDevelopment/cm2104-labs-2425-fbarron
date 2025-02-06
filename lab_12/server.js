@@ -39,8 +39,6 @@ app.get("/searchLove", function (req, res) {
 app.get("/search", function (req, res) {
   var searchterm = req.query.searchterm;
   getTracks(searchterm, res);
-  var artistID = req.query.artistID; // Define artistID appropriately
-  getTopTracks(artistID);
 });
 
 async function getTracks(searchterm, res) {
@@ -60,6 +58,8 @@ async function getTracks(searchterm, res) {
           "<h4>" +
           track.artists[0].name +
           "</h4>" +
+          track.artists[0].id +
+            "<br>" +
           "<img src='" +
           track.album.images[0].url +
           "'>" +
