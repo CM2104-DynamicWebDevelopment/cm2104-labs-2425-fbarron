@@ -85,7 +85,7 @@ async function getTracks(searchterm, res) {
 }
 
 async function getTopTracks(artistID, res) {
-  spotifyApi.getArtistTopTracks(artist, "GB").then(
+  spotifyApi.getArtistTopTracks(artistID, "GB").then(
     function (data) {
       console.log(data.body);
     },
