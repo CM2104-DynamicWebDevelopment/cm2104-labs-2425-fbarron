@@ -39,7 +39,7 @@ app.get("/searchLove", function (req, res) {
 app.get("/search", function (req, res) {
     var searchterm = req.query.searchterm;
     var artist = req.query.artist;
-    getTracks(searchterm, res);
+    getTracks(searchterm, artist, res);
   });
 
   async function getTracks(searchterm, artist, res) {
