@@ -55,6 +55,8 @@ async function getTracks(searchterm, res) {
 }
 
 
+
+
 app.get("/", function (req, res) {
   res.send("Hello World! By Express");
 });
@@ -62,6 +64,12 @@ app.get("/", function (req, res) {
 // route for love in tracks, artists and albums
 app.get("/searchLove", function (req, res) {
     getTracks("love", res);
+  });
+
+// route for searching in tracks, artists and albums
+app.get("/search", function (req, res) {
+    var searchterm = req.query.searchterm;
+    getTracks(searchterm, res);
   });
 
 app.listen(8080);
