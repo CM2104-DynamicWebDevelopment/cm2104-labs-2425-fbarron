@@ -85,16 +85,16 @@ async function getTracks(searchterm, res) {
 }
 
 async function getTopTracks(artistID, res) {
-  spotifyApi.getArtistTopTracks(artistID, "GB").then(
-    function (data) {
-      console.log(data.body);
+    spotifyApi.getArtistTopTracks(artistID, "GB").then(
+      function (data) {
+        console.log(data.body);
         var tracks = data.body.tracks;
         var HTMLResponse = "";
+  
         for (var i = 0; i < tracks.length; i++) {
           var track = tracks[i];
           console.log(track.name);
-          HTMLResponse =
-            HTMLResponse +
+          HTMLResponse +=
             "<div>" +
             "<h2>" +
             track.name +
@@ -104,7 +104,7 @@ async function getTopTracks(artistID, res) {
             "</h4>" +
             "Artist ID: " +
             track.artists[0].id +
-              "<br>" +
+            "<br>" +
             "<img src='" +
             track.album.images[0].url +
             "'>" +
@@ -112,13 +112,17 @@ async function getTopTracks(artistID, res) {
             track.external_urls.spotify +
             "'> Track Details </a>" +
             "</div>";
-          console.log(HTMLResponse);
         }
-    },
-    function (err) {
-      console.log("Something went wrong!", err);
-    }
-  );
-}
+  
+        // Send the response to the client
+        res.send("Top Tracks:<br>" + HTMLResponse);
+      },
+      function (err) {
+        console.log("Something went wrong!", err);
+        res.status(500).send("Error retrieving top tracks");
+      }
+    );
+  }
+  
 
 app.listen(8080);
