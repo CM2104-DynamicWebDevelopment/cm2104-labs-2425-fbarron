@@ -12,6 +12,9 @@ const app = express();
 //code to define the public
 app.use(express.static('public'))
 
+// use post method
+app.use(express.urlencoded({ extended: true }));
+
 var db;
 
 //run the connect method.
@@ -38,5 +41,14 @@ app.get('/all', function(req, res) {
             output += "</div>"
         }
         res.send(output);
+    });
+});
+
+// post route to add quotes to database
+app.post('/quotes', function (req, res) {
+    db.collection('quotes').insertOne(req.body, function(err, result) {
+        if (err) throw err;
+        console.log('saved to database')
+        res.redirect('/')
     });
 });
