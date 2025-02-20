@@ -39,23 +39,31 @@ async function connectDB() {
 
 //you need to complete these
 
-app.get('/', function(req,res) {
-  res.render('pages/index')
-});
-app.get('/add', function(req,res) {
-  res.render('pages/add')
-});
-app.get('/delete', function(req,res) {
-  res.render('pages/delete')
-});
-app.get('/filter', function(req,res) {
-  res.render('pages/filter')
-});
-app.get('/update', function(req,res) {
-  res.render('pages/update')
+app.get('/', function(req, res) {
+  // Fetch all quotes from the database
+  db.collection('quotes').find().toArray(function(err, result) {
+    if (err) throw err;
+    // Render the index.ejs file and pass the result as 'quotes'
+    res.render('pages/index', { quotes: result });
+  });
 });
 
 
+app.get('/add', function(req, res) {
+  res.render('pages/add');
+});
+
+app.get('/delete', function(req, res) {
+  res.render('pages/delete');
+});
+
+app.get('/filter', function(req, res) {
+  res.render('pages/filter');
+});
+
+app.get('/update', function(req, res) {
+  res.render('pages/update');
+});
 
 app.get('/allquotes', function(req, res) {
   db.collection('quotes').find().toArray(function(err, result) {

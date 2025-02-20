@@ -10,6 +10,14 @@
     <main>
       <div class="jumbotron">
         <h2>Quotes!</h2>
+        <ul>
+          <% quotes.forEach(function(quote) { %>
+            <li>
+              <h3><%= quote.name %></h3>
+              <p><%= quote.quote %></p>
+            </li>
+          <% }); %>
+        </ul>
       </div>
     </main>
 
