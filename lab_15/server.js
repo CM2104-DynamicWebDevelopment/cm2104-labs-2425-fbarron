@@ -208,4 +208,21 @@ var datatostore = {
   })
 });
 
-// get current logged in user
+// update user route
+app.get('/update', function(req, res) {
+  if(!req.session.loggedin){res.redirect('/login');return;}
+  res.render('pages/update')
+});
+
+// do update route
+app.post('/doUpdate', function(req, res) {
+  if(!req.session.loggedin){res.redirect('/login');return;}
+  var uname = req.body.username;
+  var newuname = req.body.newusername;
+  var newpword = req.body.newpassword;
+
+  db.collection('people').updateOne({"login.username":uname}, {$set: {"login.username":newuname, "login.password":newpword}}, function(err, result) {
+    if (err) throw err;
+    res.redirect('/')
+  });
+});
