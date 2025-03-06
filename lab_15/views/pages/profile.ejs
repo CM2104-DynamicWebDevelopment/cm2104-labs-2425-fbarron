@@ -25,6 +25,8 @@
           <!-- get the username -->
           <h2>username: <%= user.login.username %></h2>
           <p>
+          <!-- get the password-->
+          <h2>password: <%=user.login.password %></h2>
             <!-- get the gender-->
             gender: <%= user.gender %>
           </p>
@@ -43,6 +45,7 @@
         <div class="well">
           <h3>Details</h3>
           <h3>Address</h3>
+          <img src="<%= user.picture.thumbnail %>" class="img-circle" />
           <ul>
             <!-- get the componemts of the address-->
             <li class="list-group-item">
