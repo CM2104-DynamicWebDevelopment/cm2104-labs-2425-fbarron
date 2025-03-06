@@ -53,20 +53,32 @@ async function connectDB() {
 //********** GET ROUTES - Deal with displaying pages ***************************
 
 //this is our root route
-app.get('/', function(req, res) {
-  //if the user is not logged in redirect them to the login page
-  if(!req.session.loggedin){res.redirect('/login');return;}
+// root route
+app.get('/', async function(req, res) {
+  // if the user is not logged in, redirect them to the login page
+  if (!req.session.loggedin) {
+    res.redirect('/login');
+    return;
+  }
 
-  //otherwise perfrom a search to return all the documents in the people collection
-  db.collection('people').find().toArray(function(err, result) {
-    if (err) throw err;
-    //the result of the query is sent to the users page as the "users" array
-    res.render('pages/users', {
-      users: result
-    })
-  });
+  try {
+    // get the currently logged-in user from the session
+    const userId = req.session.userId;
 
+    // fetch the currently logged-in user from MongoDB
+    const currentUser = await db.collection('people').findOne({ _id: userId });
+
+    // fetch all users for the index page
+    const users = await db.collection('people').find().toArray();
+
+    // pass the currently logged-in user and all users to the template
+    res.render('pages/users', { currentUser: currentUser, users: users });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
 });
+
 
 //this is our login route, all it does is render the login.ejs page.
 app.get('/login', function(req, res) {
@@ -195,3 +207,5 @@ var datatostore = {
     res.redirect('/')
   })
 });
+
+// get current logged in user
