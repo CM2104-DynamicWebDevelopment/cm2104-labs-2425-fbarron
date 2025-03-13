@@ -15,6 +15,20 @@
       <input id="input" placeholder="Type your message here" autocomplete="off" />
       <button id="send">Send</button>
     </form>
+
+    <form id="form" action="">
+      <input id="username" placeholder="Enter your username" autocomplete="off" />
+      <button id="register">Register</button>
+    </form>
+    
+    <form id="private-message-form" action="">
+      <input id="recipient" placeholder="Recipient's username" autocomplete="off" />
+      <input id="private-message-input" placeholder="Type your message" autocomplete="off" />
+      <button id="send-private">Send Private</button>
+    </form>
+    
+    <ul id="messages"></ul>
+    
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>

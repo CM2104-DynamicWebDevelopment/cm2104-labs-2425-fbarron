@@ -13,29 +13,40 @@ app.get("/", function (req, res) {
   res.render("pages/index");
 });
 
+const users = {}; // Store username-to-socket mappings
+
 io.on("connection", function (socket) {
-  console.log("a user connected");
+  console.log("A user connected");
 
-  // Handle joining a room
-  socket.on("join room", function (room) {
-    socket.join(room);
-    console.log(`User joined room: ${room}`);
+  // Handle user registration (username assignment)
+  socket.on("register", function (username) {
+    users[username] = socket.id; // Map username to socket ID
+    console.log(`${username} has connected`);
   });
 
-  // Handle leaving a room (optional, if needed)
-  socket.on("leave room", function (room) {
-    socket.leave(room);
-    console.log(`User left room: ${room}`);
+  // Handle private messages
+  socket.on("private message", function (data) {
+    const { to, message, from } = data; // Data includes recipient, message, and sender
+    const recipientSocketId = users[to]; // Get recipient's socket ID
+
+    if (recipientSocketId) {
+      io.to(recipientSocketId).emit("private message", {
+        from,
+        message,
+      });
+    } else {
+      console.log(`User ${to} is not online`);
+    }
   });
 
-  // Handle chat messages sent to a specific room
-  socket.on("chat message", function (data) {
-    const { room, message, username } = data;
-    io.to(room).emit("chat message", { username, message, room });
-  });
-
+  // Handle disconnect
   socket.on("disconnect", function () {
-    console.log("user disconnected");
+    for (const [username, socketId] of Object.entries(users)) {
+      if (socketId === socket.id) {
+        delete users[username];
+        console.log(`${username} has disconnected`);
+      }
+    }
   });
 });
 

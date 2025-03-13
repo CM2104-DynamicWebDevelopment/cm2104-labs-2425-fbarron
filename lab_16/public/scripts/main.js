@@ -30,3 +30,19 @@ socket.on('chat message', function (data) {
   const displayText = `${data.username} [${data.room}]: ${data.message}`;
   $('#messages').append($('<li>').text(displayText)); // Append the message to the list
 });
+
+// Send a private message
+$('#private-message-form').submit(function (e) {
+  e.preventDefault();
+  const to = $('#recipient').val(); // Recipient's username
+  const from = $('#username').val(); // Your username
+  const message = $('#private-message-input').val(); // The private message
+  socket.emit("private message", { to, message, from });
+  $('#private-message-input').val(''); // Clear the input
+});
+
+// Listen for private messages
+socket.on("private message", function (data) {
+  const { from, message } = data;
+  $('#messages').append($('<li>').text(`Private from ${from}: ${message}`));
+});
