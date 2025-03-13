@@ -3,10 +3,10 @@ const app = express();
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
 
-//code to define the public "static" folder
+// Code to define the public "static" folder
 app.use(express.static("public"));
 
-// set the view engine to ejs
+// Set the view engine to ejs
 app.set("view engine", "ejs");
 
 app.get("/", function (req, res) {
@@ -21,6 +21,7 @@ io.on("connection", function (socket) {
 
   socket.on("chat message", function (msg) {
     console.log("message: " + msg);
+  }); 
 });
 
 http.listen(8080, function () {
