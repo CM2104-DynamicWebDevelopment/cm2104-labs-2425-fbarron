@@ -1,0 +1,70 @@
+header, section, article, nav, aside, footer, div {
+    font-family: sans-serif; 
+    border: 1px dotted #000;
+    padding: 10px;
+    margin: 10px;
+    }
+    
+body {
+    margin:auto;
+    width: 80%;
+}
+
+.MainImage {
+    width: 70%;
+    height: auto;
+}
+.BlogPost {
+    background-color: lightblue;
+}
+
+#PageContent {
+   border-style: dashed;
+   border-color: red; 
+   height:auto;
+}
+
+#PageHeader{
+    height:80px;
+}
+#SiteLogo {
+    height: 80px;
+    float: left;
+    margin-right: 10px;
+    border:1px solid black;
+}
+
+#SiteTitle {
+    margin-left: 10px;
+    font-size: 2em;
+    font-weight: bold;
+    float: left;
+    border:1px solid black;
+}
+
+
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: darkgray;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  /* Change the link color to #111 (black) on hover */
+  li a:hover {
+    background-color: #111;
+  }

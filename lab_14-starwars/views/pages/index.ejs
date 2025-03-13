@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('../partials/head') %>
+  </head>
+
+  <body class="container">
+    <header><%- include('../partials/header') %></header>
+
+    <main>
+      <div class="jumbotron">
+        <h2>Quotes!</h2>
+        <ul>
+          <% quotes.forEach(function(quote) { %>
+            <li>
+              <h3><%= quote.name %></h3>
+              <p><%= quote.quote %></p>
+            </li>
+          <% }); %>
+        </ul>
+      </div>
+    </main>
+
+    <footer><%- include('../partials/footer') %></footer>
+  </body>
+</html>
