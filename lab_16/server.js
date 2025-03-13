@@ -15,13 +15,28 @@ app.get("/", function (req, res) {
 
 io.on("connection", function (socket) {
   console.log("a user connected");
+
+  // Handle joining a room
+  socket.on("join room", function (room) {
+    socket.join(room);
+    console.log(`User joined room: ${room}`);
+  });
+
+  // Handle leaving a room (optional, if needed)
+  socket.on("leave room", function (room) {
+    socket.leave(room);
+    console.log(`User left room: ${room}`);
+  });
+
+  // Handle chat messages sent to a specific room
+  socket.on("chat message", function (data) {
+    const { room, message, username } = data;
+    io.to(room).emit("chat message", { username, message, room });
+  });
+
   socket.on("disconnect", function () {
     console.log("user disconnected");
   });
-
-  socket.on("chat message", function (msg) {
-    io.emit("chat message", msg);
-  }); 
 });
 
 http.listen(8080, function () {
